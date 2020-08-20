@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'handle_name' ,'image_picture' ,'email', 'password',
     ];
 
     /**
@@ -36,4 +36,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function comment(){
+        return $this->hasMany(Comment::class);
+    }
+
+    public function favorite(){
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function laraat(){
+        return $this->hasMany(Laraat::class);
+    }
+
+    public function following_relation(){
+        return $this->belongsToMany(User::class,'ff_relationship','following_user_id','followed_user_id');
+    }
+
+    public function fllowed_relation(){
+        return $this->belongsToMany(User::class,'ff_relationship','followed_user_id','following_user_id');
+
+    }
 }
