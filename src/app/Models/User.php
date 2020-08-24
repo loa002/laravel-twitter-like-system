@@ -37,6 +37,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //リレーション定義
     public function comment(){
         return $this->hasMany(Comment::class);
     }
@@ -56,5 +57,10 @@ class User extends Authenticatable
     public function fllowed_relation(){
         return $this->belongsToMany(User::class,'ff_relationship','followed_user_id','following_user_id');
 
+    }
+
+    //全ユーザー取得
+    public function getAllusers(Int $user_id){
+        return $this->Where('id', '<>', $user_id)->paginate(5);
     }
 }
