@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -93,14 +94,25 @@ class UserController extends Controller
     //フォロー機能
     public function follow(User $user){
         $myself = Auth::user();
-
-        
+        //フォロー判定
+        //返り値 = フォローデータ or 空白
+        $follow_result = $myself->following_judge($user->id);
+        // Log::debug('○フォロー機能｜フォロー対象のユーザーid:' . $user->id . '判定結果:' . $follow_result);
+        if(empty($follow_result)){
+            $myself->follow($user->id);
+        }
+        return redirect('/user');
     }
 
     //フォロー解除機能
     public function unfollow(User $user){
         $myself = Auth::user();
-
-
+        //フォロー判定
+        $follow_result = $myself->following_judge($user->id);
+        // Log::debug('○フォロー解除機能｜フォロー対象のユーザーid:' . $user->id . '判定結果:' . $follow_result);
+        if(!empty($follow_result)){
+            $myself->unfollow($user->id);
+        }
+        return redirect('/user');
     }
 }
