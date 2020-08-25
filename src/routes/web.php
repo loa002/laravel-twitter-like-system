@@ -25,4 +25,6 @@ Route::group(['middleware' => 'auth'], function(){
     //ユーザ関連機能用
     //今回は一覧表示、個別表示、更新画面(編集)、更新処理(編集更新)を使う
     Route::resource('user', 'Usercontroller', ['only' => ['index', 'show', 'edit', 'update']]);
+    Route::post('user/{user}/follow','Usercontroller@follow')->name('user.follow');
+    Route::post('user/{user}/unfollow','Usercontroller@unfollow')->name('user.unfollow');
 });

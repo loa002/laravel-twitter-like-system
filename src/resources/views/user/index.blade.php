@@ -6,11 +6,32 @@
         <div class="col-md-8">
             @foreach ($all_user as $user)
                 <div class="card">
-                    <div class="card-haeder p-3 w-100 d-flex">
-                        <img src="{{ $user->image_picture }}" class="rounded-circle" width="50" height="50">
-                        <div class="ml-2 d-flex flex-column">
-                            <p class="mb-0">{{ $user->name }}</p>
-                            <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->handle_name }}</a>
+                    <div class="card-haeder d-flex flex-row justify-content-between">
+                        <div class="profile_info">
+                            <img src="{{ $user->image_picture }}" class="rounded-circle" width="50" height="50">
+                            <div class="ml-2 d-flex flex-column">
+                                <p class="mb-0">{{ $user->name }}</p>
+                                <a href="{{ url('user/' .$user->id) }}">{{ $user->handle_name }}</a>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            @if (Auth::user()->followed_judge($user->id))
+                                <p>フォローされています</p>
+                            @else
+                                <p>フォローされていません</p>
+                            @endif
+                            @unless (Auth::user()->following_judge($user->id))
+                                <form method="POST" action="{{ route('user.follow', ['user' => $user]) }}">
+                                    {{ csrf_field() }}
+                                    <button type="submit">フォローする</button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('user.unfollow', ['user' => $user]) }}">
+                                    {{ csrf_field() }}
+                                    {{-- {{ method_field('DELETE') }} --}}
+                                    <button type="submit">フォロー解除</button>
+                                </form>
+                            @endunless
                         </div>
                     </div>
                 </div>
