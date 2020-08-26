@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\softDeletes;
 
 class Laraat extends Model
 {
-    use SoftDelete; //論理削除機能
+    use SoftDeletes; //論理削除機能
 
     protected $fillable = [
         'txt_content',
@@ -24,5 +24,13 @@ class Laraat extends Model
 
     public function favorite(){
         return $this->hasMany(Favorite::class);
+    }
+
+    public function getAlllaraats(Int $user_id){
+        return $this->where('user_id',$user_id)->paginate(50);
+    }
+
+    public function getLaraatscount(Int $user_id){
+        return $this->where('user_id',$user_id)->count();
     }
 }
