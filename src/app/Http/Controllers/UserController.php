@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Laraat;
+use App\Models\Ff_relationship;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -50,9 +52,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user, Laraat $laraat, Ff_relationship $ff_relationship)
     {
-        //
+        $all_laraat_of_user = $laraat->getAlllaraats($user->id);
+        $following_count = $ff_relationship->getFollowingcount($user->id);
+        $followed_count = $ff_relationship->getFollowedcount($user->id);
+        $laraat_count = $laraat->getLaraatscount($user->id);
+
+        return view('user.show', [
+            'user' => $user,
+            'all_laraat_of_user' => $all_laraat_of_user,
+            'following_count' => $following_count,
+            'followed_count' => $followed_count,
+            'laraat_count' => $laraat_count
+        ]);
     }
 
     /**
@@ -101,7 +114,7 @@ class UserController extends Controller
         if(empty($follow_result)){
             $myself->follow($user->id);
         }
-        return redirect('/user');
+        return redirect('user');
     }
 
     //フォロー解除機能
@@ -113,6 +126,6 @@ class UserController extends Controller
         if(!empty($follow_result)){
             $myself->unfollow($user->id);
         }
-        return redirect('/user');
+        return redirect('user');
     }
 }
