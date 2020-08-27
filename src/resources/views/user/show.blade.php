@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-haeder d-flex flex-row justify-content-between">
                     <div class="profile_info">
                         <img src="{{ $user->image_picture }}" class="rounded-circle" width="100" height="100">
@@ -35,6 +35,7 @@
                         @else
                             <p>プロフィール編集</p>
                         @endif
+                        <p>ララート数：{{ $laraat_count }}</p>
                         <p>フォロー数：{{ $following_count }}</p>
                         <p>フォロワー数：{{ $followed_count }}</p>
                     </div>
