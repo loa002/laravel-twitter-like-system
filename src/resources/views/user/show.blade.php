@@ -7,7 +7,7 @@
             <div class="card mb-4">
                 <div class="card-haeder d-flex flex-row justify-content-between">
                     <div class="profile_info">
-                        <img src="{{ $user->image_picture }}" class="rounded-circle" width="100" height="100">
+                        <img src="{{ asset('storage/image_picture/' . $user->image_picture) }}" class="rounded-circle" width="100" height="100">
                         <div class="ml-2 d-flex flex-column">
                             <p class="mb-0">{{ $user->name }}</p>
                             <p>{{ $user->handle_name }}</p>
@@ -33,7 +33,7 @@
                                 </form>
                             @endunless
                         @else
-                            <p>プロフィール編集</p>
+                            <a href="{{ url('user/' . Auth::id() . '/edit') }}">プロフィール編集</a>
                         @endif
                         <p>ララート数：{{ $laraat_count }}</p>
                         <p>フォロー数：{{ $following_count }}</p>
