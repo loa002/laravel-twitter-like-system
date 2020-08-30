@@ -8,6 +8,8 @@ use App\Models\Laraat;
 use App\Models\Ff_relationship;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -74,9 +76,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('user.edit',[
+            'user' => $user
+        ]);
     }
 
     /**
@@ -86,9 +90,27 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        // $request->validate([
+        //     'name' => 'required|string|max:100'.Rule::unique('users')->ignore($user->id).'',
+        //     'handle_name' => 'required|string|max:100',
+        //     'email' => 'required|string|email|max:255'
+        // ]);
+
+        $validator = Validator::make($request->all(), [
+            'name' =>  ['required', 'string', 'max:100'],
+            'handle_name' => ['required', 'string', 'max:100', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'string', 'max:100', 'email', Rule::unique('users')->ignore($user->id)],
+        ]);
+        //自動リダイレクト
+        $validator->validate();
+
+        //更新処理
+        $user->updateUserinformation($request->all());
+        Log::debug($request->all());
+
+        return redirect('user/' . $user->id);
     }
 
     /**
