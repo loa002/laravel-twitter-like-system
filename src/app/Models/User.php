@@ -85,4 +85,27 @@ class User extends Authenticatable
     public function followed_judge(Int $user_id){
         return $this->followed_relation()->where('following_user_id',$user_id)->first(['ff_relationships.id']);
     }
+
+    public function updateUserinformation(Array $form_data){
+        if(isset($form_data['image_picture'])){
+            //storeしている保存場所はstorageフォルダ配下のimage_picture
+            //storeのみで画像保存処理が可能
+            $path = $form_data['image_picture']->store('public/image_picture/');
+
+            $this->where('id', $this->id)->update([
+                'name' => $form_data['name'],
+                'handle_name' => $form_data['handle_name'],
+                'email' => $form_data['email'],
+                'image_picture' => basename($path),
+            ]);
+        }
+        else{
+            $this->where('id', $this->id)->update([
+                'name' => $form_data['name'],
+                'handle_name' => $form_data['handle_name'],
+                'email' => $form_data['email']
+            ]);
+        }
+        return;
+    }
 }
