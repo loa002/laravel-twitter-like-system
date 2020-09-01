@@ -20,4 +20,7 @@ class Ff_relationship extends Model
         return $this->where('followed_user_id',$user_id)->count();
     }
     
+    public function getFollowingids(Int $user_id){
+        return $this->where('following_user_id',$user_id)->get('followed_user_id');
+    }
 }

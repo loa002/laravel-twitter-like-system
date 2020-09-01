@@ -33,4 +33,12 @@ class Laraat extends Model
     public function getLaraatscount(Int $user_id){
         return $this->where('user_id',$user_id)->count();
     }
+
+    public function getFollowinglaraats(Array $following_ids_and_myself_id){
+        return $this->whereIn('user_id', $following_ids_and_myself_id)->orderby('created_at')->paginate(50);
+    }
+
+    public function getLraat(Int $laraat_id){
+        return $this->where('id', $laraat_id)->first();
+    }
 }
