@@ -38,7 +38,9 @@ class Laraat extends Model
         return $this->whereIn('user_id', $following_ids_and_myself_id)->orderby('created_at')->paginate(50);
     }
 
-    public function getLraat(Int $laraat_id){
-        return $this->where('id', $laraat_id)->first();
+    public function getLaraat(Int $laraat_id){
+        //withはeagerload、ここではuserリレーション メソッドを使用している。
+        //↑呼び出すview側にて動的プロパティ($laraat->user)を使うことでeagerloadが使える。
+        return $this->with('user')->where('id', $laraat_id)->first();
     }
 }

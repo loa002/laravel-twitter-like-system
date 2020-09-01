@@ -62,9 +62,13 @@ class LaraatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Laraat $laraat)
     {
-        //
+        $laraat = $laraat->getLaraat($laraat->id);
+
+        return view('laraat.show', [
+            'laraat' => $laraat,
+        ]);
     }
 
     /**
