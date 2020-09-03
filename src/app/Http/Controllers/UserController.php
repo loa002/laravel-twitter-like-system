@@ -108,7 +108,7 @@ class UserController extends Controller
 
         //更新処理
         $user->updateUserinformation($request->all());
-        Log::debug($request->all());
+        // Log::debug($request->all());
 
         return redirect('user/' . $user->id);
     }
