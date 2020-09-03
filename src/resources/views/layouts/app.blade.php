@@ -49,6 +49,9 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a href="{{ url('laraat/create') }}" class="btn btn-md btn-primary">ツイートする</a>
+                            </li>
                             <img src="{{ asset('storage/image_picture/' . Auth::user()->image_picture) }}" class="rounded-circle" width="30" height="30">
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
