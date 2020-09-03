@@ -42,7 +42,10 @@ class LaraatController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth::user();
+        return view('laraat.create',[
+            'user' => $user
+        ]);
     }
 
     /**
@@ -51,9 +54,21 @@ class LaraatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Laraat $laraat)
     {
-        //
+        $laraat_data = $request->all();
+        $validator = Validator::make($laraat_data, [
+            'txt_content' => ['required', 'string', 'max:150'],
+        ]);
+
+        //自動リダイレクト
+        $validator->validate();
+
+        //登録処理
+        $laraat->laraatRegister(Auth::id(),$laraat_data);
+
+        return redirect('laraat/');
+
     }
 
     /**
@@ -77,9 +92,20 @@ class LaraatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Laraat $laraat)
     {
-        //
+        $user = auth()->user();
+        $laraat = $laraat->getLaraat($laraat->id);
+
+        //存在しないツイートの編集画面にアクセスした場合
+        if(!isset($laraat)){
+            return redirect('/laraat');
+        }
+
+        return view('laraat.edit', [
+            'user' => $user,
+            'laraat' => $laraat
+        ]);
     }
 
     /**
@@ -89,9 +115,20 @@ class LaraatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Laraat $laraat)
     {
-        //
+        $laraat_data = $request->all();
+        $validator = Validator::make($laraat_data, [
+            'txt_content' => ['required', 'string', 'max:150'],
+        ]);
+
+        //自動リダイレクト
+        $validator->validate();
+
+        //登録処理
+        $laraat->laraatUpdate(Auth::id(),$laraat_data);
+
+        return redirect('laraat/');
     }
 
     /**
@@ -100,8 +137,11 @@ class LaraatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Laraat $laraat)
     {
-        //
+        Log::debug('削除ここまできてる');
+        $laraat->laraatDelete($laraat->id);
+
+        return redirect('laraat/');
     }
 }

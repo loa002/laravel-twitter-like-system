@@ -43,4 +43,24 @@ class Laraat extends Model
         //↑呼び出すview側にて動的プロパティ($laraat->user)を使うことでeagerloadが使える。
         return $this->with('user')->where('id', $laraat_id)->first();
     }
+
+    public function laraatRegister(Int $user_id, Array $laraat_data){
+        $this->user_id = $user_id;
+        $this->txt_content = $laraat_data['txt_content'];
+        $this->save();
+
+        return;
+    }
+    public function laraatUpdate(Int $user_id, Array $laraat_data){
+        $this->user_id = $user_id;
+        $this->txt_content = $laraat_data['txt_content'];
+        $this->save();
+
+        return;
+    }
+    public function laraatDelete(Int $laraat_id){
+        $this->where('id', $laraat_id)->delete();
+
+        return;
+    }
 }

@@ -29,5 +29,5 @@ Route::group(['middleware' => 'auth'], function(){
     Route::delete('user/{user}/unfollow','UserController@unfollow')->name('user.unfollow');
     //ツイート(ララート)関連機能
     //CRUDなので全メソッド使用
-    Route::resource('laraat', 'LaraatController', ['only' => ['index', 'create', 'store', 'show', 'edit', 'update']]);
+    Route::resource('laraat', 'LaraatController', ['only' => ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']]);
 });

@@ -15,6 +15,9 @@
                 <div class="card-body">
                     <p>{{ $laraat->txt_content }}</p>
                 </div>
+                @if ($laraat->user->id == Auth::id())
+                    <a href="{{ url('laraat/' . $laraat->id . '/edit') }}" class="btn btn-md btn-primary">このツイートを編集する</a>
+                @endif
             </div>
         </div>
     </div>
