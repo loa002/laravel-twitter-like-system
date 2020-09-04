@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Laraat;
 use App\Models\Ff_relationship;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -77,12 +78,15 @@ class LaraatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Laraat $laraat)
+    public function show(Laraat $laraat, Comment $comment)
     {
         $laraat = $laraat->getLaraat($laraat->id);
 
+        $comments = $comment->getComments($laraat->id);
+
         return view('laraat.show', [
             'laraat' => $laraat,
+            'comments' => $comments
         ]);
     }
 

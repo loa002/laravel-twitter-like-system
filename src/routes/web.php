@@ -30,4 +30,6 @@ Route::group(['middleware' => 'auth'], function(){
     //ツイート(ララート)関連機能
     //CRUDなので全メソッド使用
     Route::resource('laraat', 'LaraatController', ['only' => ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']]);
+
+    Route::resource('comments', 'CommentsController', ['only' => ['store']]);
 });
