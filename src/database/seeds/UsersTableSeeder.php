@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
             DB::table('users')->insert([
                 'name' => 'test_user_' . $i,
                 'handle_name' => 'TEST_USER_' . $i,
-                'image_picture' => 'http://imgcc.naver.jp/kaze/mission/USER/20161222/76/7847676/5/798x598x439cfdbe45fca5c899195659.jpg',
+                'image_picture' => 'sample.png',
                 'email' => 'test_mail_' . $i . '@test.com',
                 'password' => Hash::make('123456789'),
                 'remember_token' => Str::random(10),
